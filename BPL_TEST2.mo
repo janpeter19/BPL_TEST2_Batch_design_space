@@ -139,18 +139,11 @@ encapsulated package BPL_TEST2
 	end ExploreCultureSystem;
 
 // ----------------------------------------------------------------------------------------------------------------
-//    Expand with blocks for Sensor with noise and DetectEndBatch 
-// ----------------------------------------------------------------------------------------------------------------
-
- 	import Modelica.Blocks.Noise.NormalNoise;
-   
-
-
-// ----------------------------------------------------------------------------------------------------------------
-//    Adaptation of the library Equipment2 to the actual medium and culture 
+//    Adaptation of the library Equipment to the actual medium and culture and add two blocks
 // ----------------------------------------------------------------------------------------------------------------
 
 	import BPL.Interfaces.ReactorInterfaceInner;
+ 	import Modelica.Blocks.Noise.NormalNoise;
 
 	package Equipment
 		import BPL.EquipmentLib;
