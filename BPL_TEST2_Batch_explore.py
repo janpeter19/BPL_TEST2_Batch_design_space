@@ -48,6 +48,8 @@
 # 2022-03-26 - Updated to FMU-explore 0.9.0 - model.reset(), and par(), init()
 # 2022-04-29 - Updated to FMU-explore 0.9.1 
 # 2022-05-28 - Introduce variable mu in parLocation for use in describe() but also disp()
+# 2022-09-03 - Adapt for design space studies
+# 2022-09-04 - FMU-explore extended exception list in describe_parts but could perhaps improve MSL.usage further
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -126,6 +128,10 @@ parDict['time_final_max'] = 6.0
 parDict['X_final_min'] = 5.0
 parDict['sigma'] = 0.48
 
+parDict['seed'] = 1
+parDict['useGlobalSeed'] = False
+parDict['useAutomaticLocalSeed'] = False
+
 global parLocation; parLocation = {}
 parLocation['V_0'] = 'bioreactor.V_0'
 parLocation['VX_0'] = 'bioreactor.m_0[1]' 
@@ -139,6 +145,10 @@ parLocation['S_min'] = 'monitor.S_min'
 parLocation['time_final_max'] = 'monitor.time_final_max'
 parLocation['X_final_min'] = 'monitor.X_final_min'
 parLocation['sigma'] = 'sensor.sigma'
+
+parLocation['seed'] = 'sensor.noise.fixedLocalSeed'
+parLocation['useGlobalSeed'] = 'sensor.noise.useGlobalSeed'
+parLocation['useAutomaticLocalSeed'] = 'sensor.noise.useAutomaticLocalSeed'
 
 # Extra only for describe()
 parLocation['mu'] = 'bioreactor.culture.mu'
@@ -184,7 +194,7 @@ def newplot(title='Batch cultivation - noise on S', plotType='TimeSeries'):
       diagrams.append("ax2.plot(sim_res['time'],sim_res['sensor.out.c[2]'],color='b',linestyle=linetype)")   
       diagrams.append("ax2.plot([0, simulationTime], [model.get('monitor.S_min'), model.get('monitor.S_min')],color='g',linestyle='--')")     
       diagrams.append("ax3.plot(sim_res['time'],sim_res['bioreactor.culture.q[1]'],color='r',linestyle=linetype)")   
-      diagrams.append("ax4.step(sim_res['time'],sim_res['monitor.batch_evaluation'],color='b',linestyle=linetype)") 
+      diagrams.append("ax4.step(sim_res['time'],sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)") 
 
    elif plotType == 'PhasePlane':
 
@@ -235,7 +245,7 @@ def describe(name, decimals=3):
       
 #------------------------------------------------------------------------------------------------------------------
 #  General code 
-FMU_explore = 'FMU-explore ver 0.9.2'
+FMU_explore = 'FMU-explore ver 0.9.3'
 #------------------------------------------------------------------------------------------------------------------
 
 # Define function par() for parameter update
@@ -413,7 +423,7 @@ def describe_parts(component_list=[]):
                 finished = True
             else: 
                 i=i+1
-      if name in ['der', 'temp_1']: name = ''
+      if name in ['der', 'temp_1', 'temp_2', 'temp_3', 'temp_4', 'temp_5', 'temp_6', 'temp_7']: name = ''
       return name
     
    variables = list(model.get_model_variables().keys())

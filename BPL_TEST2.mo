@@ -46,6 +46,7 @@ encapsulated package BPL_TEST2
 	// 2022-08-18 - Introduce MSL_info and include in all models
 	// 2022-08-19 - Moved MSL_info to BPL.UsersGuide
 	// 2022-09-03 - New file TEST2B but still call the package BPL_TEST2 and extend with measurement noise etc
+	// 2022-09-04 - Refined declaration of MSL.usage to refelec what components are used for each sytem
  
 // ----------------------------------------------------------------------------------------------------------------
 //    Customer informtion
@@ -218,14 +219,16 @@ encapsulated package BPL_TEST2
 	import Modelica.Blocks.Types;
 
 	model ExploreCulture
-		BPL_info BPL; MSL_info MSL;
+		BPL_info BPL; 
+		MSL_info MSL(usage=" ");
 		Customer_info Customer;	
 		Liquidphase_data liquidphase;
 		ExploreCultureSystem testbed;
 	end ExploreCulture;	
 
    model Batch "Batch cultivation"
-		BPL_info BPL; MSL_info MSL;
+		BPL_info BPL; 
+		MSL_info MSL(usage=" ");
 		Customer_info Customer;	
 		Liquidphase_data liquidphase;
       Equipment.Reactor bioreactor(X=liquidphase.X);
@@ -235,7 +238,8 @@ encapsulated package BPL_TEST2
 	import BPL.Control;
 
    model Fedbatch "Fedbatch cultivation"
-		BPL_info BPL; MSL_info MSL;
+		BPL_info BPL; 
+		MSL_info MSL(usage="RealÍnput, RealOutput");
 		Customer_info Customer;	
 		Liquidphase_data liquidphase;
       Equipment.Reactor bioreactor(X=liquidphase.X, n_inlets=1);
@@ -247,7 +251,8 @@ encapsulated package BPL_TEST2
    end Fedbatch;
 
 	model Batch_expansion "Batch expansion"
-		BPL_info BPL; MSL_info MSL;
+		BPL_info BPL; 
+		MSL_info MSL(usage="RealÍnput, RealOutput, CombiTimeTable, Types");
 		Customer_info Customer;	
 		Liquidphase_data liquidphase;
 		Equipment.Reactor bio1(X=liquidphase.X, n_outlets=1);
@@ -268,8 +273,9 @@ encapsulated package BPL_TEST2
 		connect(schemePump.y[1], pump.Fsp);
 	end Batch_expansion;
 
-	model Batch_harvest "Batch cultivation with harvest usingideal filtration"
-		BPL_info BPL; MSL_info MSL;
+	model Batch_harvest "Batch cultivation with harvest using ideal filtration"
+		BPL_info BPL; 
+		MSL_info MSL(usage="RealÍnput, RealOutput, CombiTimeTable, Types");
 		Customer_info Customer;	
 		Liquidphase_data liquidphase;
 		Equipment.Reactor bioreactor(X=liquidphase.X, n_outlets=1);
@@ -289,7 +295,8 @@ encapsulated package BPL_TEST2
 	end Batch_harvest;
 
    model Perfusion "Perfusion cultivation"
-		BPL_info BPL; MSL_info MSL;
+		BPL_info BPL;
+		MSL_info MSL(usage="RealÍnput, RealOutput, CombiTimeTable, Types");
 		Customer_info Customer;	
 		Liquidphase_data liquidphase;
       Equipment.Reactor bioreactor(X=liquidphase.X, n_inlets=2, n_outlets=1);
@@ -317,7 +324,8 @@ encapsulated package BPL_TEST2
    end Perfusion;
 
 	model BatchWithNoise "Batch with end detection"
-		BPL_info BPL; MSL_info MSL;
+		BPL_info BPL; 
+		MSL_info MSL(usage="Noise.NormalNoise");
 		Customer_info Customer;	
 		Liquidphase_data liquidphase;
       Equipment.Reactor bioreactor(X=liquidphase.X, n_ports=1);
