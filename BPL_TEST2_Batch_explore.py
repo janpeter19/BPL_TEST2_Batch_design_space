@@ -240,6 +240,9 @@ def describe(name, decimals=3):
    elif name in ['parts']:
       describe_parts(component_list_minimum)
 
+   elif name in ['MSL']:
+      describe_MSL()
+
    else:
       describe_general(name, decimals)
       
@@ -435,6 +438,10 @@ def describe_parts(component_list=[]):
          component_list.append(component)
       
    print(sorted(component_list, key=str.casefold))
+   
+def describe_MSL():
+   """List MSL version and components used"""
+   print('MSL:', model.get('MSL.version')[0],'- used components:', model.get('MSL.usage')[0])
 
 # Describe parameters and variables in the Modelica code
 def describe_general(name, decimals):
