@@ -46,7 +46,7 @@ encapsulated package BPL_TEST2
 	// 2022-08-18 - Introduce MSL_info and include in all models
 	// 2022-08-19 - Moved MSL_info to BPL.UsersGuide
 	// 2022-09-03 - New file TEST2B but still call the package BPL_TEST2 and extend with measurement noise etc
-	// 2022-09-04 - Refined declaration of MSL.usage to refelec what components are used for each sytem
+	// 2022-09-04 - Refined declaration of MSL.usage to reflect what components are used for each sytem
  
 // ----------------------------------------------------------------------------------------------------------------
 //    Customer informtion
