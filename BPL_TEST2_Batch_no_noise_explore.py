@@ -52,6 +52,7 @@
 # 2022-09-04 - FMU-explore extended exception list in describe_parts but could perhaps improve MSL.usage further
 # 2022-09-05 - Introduced describe_MSL() to handle MSL information, both version and usage
 # 2022-09-06 - Introduced new plotTypes for newplot()
+# 2022-09-07 - Adjust for no noise system
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -142,7 +143,6 @@ parLocation['S_min'] = 'monitor.S_min'
 parLocation['time_final_max'] = 'monitor.time_final_max'
 parLocation['X_final_min'] = 'monitor.X_final_min'
 
-
 # Extra only for describe()
 parLocation['mu'] = 'bioreactor.culture.mu'
 
@@ -151,7 +151,7 @@ global diagrams
 diagrams = []
 
 # Define standard diagrams
-def newplot(title='Batch cultivation - noise on S only', plotType='TimeSeries'):
+def newplot(title='Batch cultivation', plotType='TimeSeries'):
    """ Standard plot window
         title = ''
        two possible diagrams
@@ -192,43 +192,38 @@ def newplot(title='Batch cultivation - noise on S only', plotType='TimeSeries'):
    elif plotType == 'TimeSeries_2':
 
       plt.figure()
-      ax1 = plt.subplot(5,1,1)
-      ax2 = plt.subplot(5,1,2)
-      ax3 = plt.subplot(5,1,3)
-      ax4 = plt.subplot(5,1,4)
-      ax5 = plt.subplot(5,1,5)
+      ax1 = plt.subplot(4,1,1)
+      ax2 = plt.subplot(4,1,2)
+      ax3 = plt.subplot(4,1,3)
+      ax4 = plt.subplot(4,1,4)
 
       ax1.set_title(title)  
       ax1.set_ylabel('X [g/L]'); ax1.grid()     
       ax2.set_ylabel('S [g/L]'); ax2.grid()    
-      ax3.set_ylabel('mu [1/h]'); ax3.grid()
-      ax4.set_ylabel('S measured [g/L]'); ax4.grid()      
-      ax5.set_ylabel('Batch evaluation'); ax5.set_xlabel('Time [h]'); ax5.grid()      
+      ax3.set_ylabel('mu [1/h]'); ax3.grid()   
+      ax4.set_ylabel('Batch evaluation'); ax4.set_xlabel('Time [h]'); ax4.grid()      
           
       # List of commands to be executed by simu() after a simulation  
       diagrams.clear()
       diagrams.append("ax1.plot(sim_res['time'],sim_res['bioreactor.c[1]'],color='b',linestyle=linetype)")
       diagrams.append("ax2.plot(sim_res['time'],sim_res['bioreactor.c[2]'],color='b',linestyle=linetype)")  
-      diagrams.append("ax3.plot(sim_res['time'],sim_res['bioreactor.culture.q[1]'],color='b',linestyle=linetype)")     
-      diagrams.append("ax4.plot(sim_res['time'],sim_res['sensor.out.c[2]'],color='b',linestyle=linetype)")   
-      diagrams.append("ax4.plot([0, simulationTime], [model.get('monitor.S_min'), model.get('monitor.S_min')],color='g',linestyle='--')")     
-      diagrams.append("ax5.step(sim_res['time'],sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)") 
+      diagrams.append("ax2.plot([0, simulationTime], [model.get('monitor.S_min'), model.get('monitor.S_min')],color='g',linestyle='--')") 
+      diagrams.append("ax3.plot(sim_res['time'],sim_res['bioreactor.culture.q[1]'],color='b',linestyle=linetype)")      
+      diagrams.append("ax4.step(sim_res['time'],sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)") 
 
    elif plotType == 'TimeSeries_2_diagrams':
 
       plt.figure()
-      ax1 = plt.subplot(5,1,1)
-      ax2 = plt.subplot(5,1,2)
-      ax3 = plt.subplot(5,1,3)
-      ax4 = plt.subplot(5,1,4)
-      ax5 = plt.subplot(5,1,5)
+      ax1 = plt.subplot(4,1,1)
+      ax2 = plt.subplot(4,1,2)
+      ax3 = plt.subplot(4,1,3)
+      ax4 = plt.subplot(4,1,4)
 
       ax1.set_title(title)  
       ax1.set_ylabel('X [g/L]'); ax1.grid()     
       ax2.set_ylabel('S [g/L]'); ax2.grid()    
-      ax3.set_ylabel('mu [1/h]'); ax3.grid()
-      ax4.set_ylabel('S measured [g/L]'); ax4.grid()      
-      ax5.set_ylabel('Batch evaluation'); ax5.set_xlabel('Time [h]'); ax5.grid()      
+      ax3.set_ylabel('mu [1/h]'); ax3.grid() 
+      ax4.set_ylabel('Batch evaluation'); ax4.set_xlabel('Time [h]'); ax4.grid()      
           
       # List of commands to be executed by simu() after a simulation  
       diagrams.clear()
