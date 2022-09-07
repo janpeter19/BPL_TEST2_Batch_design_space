@@ -47,6 +47,7 @@ encapsulated package BPL_TEST2
 	// 2022-08-19 - Moved MSL_info to BPL.UsersGuide
 	// 2022-09-03 - New file TEST2B but still call the package BPL_TEST2 and extend with measurement noise etc
 	// 2022-09-04 - Refined declaration of MSL.usage to reflect what components are used for each sytem
+	// 2022-09-06 - I see the need for a separate system without noise to avoid sampling and rely on events
  
 // ----------------------------------------------------------------------------------------------------------------
 //    Customer informtion
@@ -332,9 +333,19 @@ encapsulated package BPL_TEST2
 		Equipment.SampleNoise sensor;
 		Equipment.DetectEndBatch monitor;
    equation
-//		connect(bioreactor.port[1], monitor.probe);
 		connect(bioreactor.port[1], sensor.probe);	
 		connect(sensor.out, monitor.probe);
 	end BatchWithNoise;
+
+	model BatchNoNoise "Batch with end detection"
+		BPL_info BPL; 
+		MSL_info MSL(usage=" ");
+		Customer_info Customer;	
+		Liquidphase_data liquidphase;
+      Equipment.Reactor bioreactor(X=liquidphase.X, n_ports=1);
+		Equipment.DetectEndBatch monitor;
+   equation
+		connect(bioreactor.port[1], monitor.probe);
+	end BatchNoNoise;
 
 end BPL_TEST2;

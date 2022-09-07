@@ -85,13 +85,13 @@ if platform.system() == 'Linux': locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 global fmu_model, model, opts
 if platform.system() == 'Windows':
    print('Windows - run FMU pre-compiled JModelica 2.14')
-   fmu_model ='BPL_TEST2_BatchWithNoise_windows_jm_cs.fmu'        
+   fmu_model ='BPL_TEST2_BatchNoNoise_windows_jm_cs.fmu'        
    model = load_fmu(fmu_model, log_level=0)
    opts = model.simulate_options()
    opts['silent_mode'] = True
 elif platform.system() == 'Linux':
    print('Linux - run FMU pre-comiled JModelica 2.4')
-   fmu_model ='BPL_TEST2_BatchWithNoise_linux_jm_cs.fmu'        
+   fmu_model ='BPL_TEST2_BatchNoNoise_linux_jm_cs.fmu'        
    model = load_fmu(fmu_model, log_level=0)
    opts = model.simulate_options()
    opts['silent_mode'] = True
@@ -128,12 +128,6 @@ parDict['Ks'] = 0.1
 parDict['S_min'] = 1.0
 parDict['time_final_max'] = 6.0
 parDict['X_final_min'] = 5.0
-parDict['sigma'] = 0.48
-
-parDict['samplePeriod'] = 0.1
-parDict['seed'] = 1
-parDict['useGlobalSeed'] = False
-parDict['useAutomaticLocalSeed'] = False
 
 global parLocation; parLocation = {}
 parLocation['V_0'] = 'bioreactor.V_0'
@@ -147,12 +141,7 @@ parLocation['Ks'] = 'bioreactor.culture.Ks'
 parLocation['S_min'] = 'monitor.S_min'
 parLocation['time_final_max'] = 'monitor.time_final_max'
 parLocation['X_final_min'] = 'monitor.X_final_min'
-parLocation['sigma'] = 'sensor.sigma'
 
-parLocation['samplePeriod'] = 'sensor.samplePeriod'
-parLocation['seed'] = 'sensor.noise.fixedLocalSeed'
-parLocation['useGlobalSeed'] = 'sensor.noise.useGlobalSeed'
-parLocation['useAutomaticLocalSeed'] = 'sensor.noise.useAutomaticLocalSeed'
 
 # Extra only for describe()
 parLocation['mu'] = 'bioreactor.culture.mu'
