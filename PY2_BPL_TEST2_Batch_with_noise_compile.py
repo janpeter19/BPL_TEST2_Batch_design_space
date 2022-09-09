@@ -1,6 +1,9 @@
 # Figure - Simulation of batch reactor 
 #          with functions added to facilitate explorative simulation work
 #
+# MIT License
+# Copyright (c) 2022, Jan Peter Axelsson, All rights reserved.
+#
 # Author: Jan Peter Axelsson
 # 2012-10-16 - Created
 # 2012-10-25 - Modified 
