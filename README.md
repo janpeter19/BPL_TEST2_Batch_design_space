@@ -8,7 +8,7 @@ Successful results is here defined as that final cell concentration > 5 g/L and 
 
 ![](br13_batch_sweep_fig2_400.png)
 
-Brute force simulation of 20x20 parameter value show results of what parameter combinations give a successful outcome, marked blue and failure red. This is often called design space in the pharmaceutical industry. The simulations are also done with some noise in the measurement and we see the effect of that. The lower left corner of the design space then get somewhat rounded, see figures in the folder listed below.
+Brute force simulation of 20x20 parameter value show results of what parameter combinations give a successful outcome, marked blue and failure red. This is often called design space in the pharmaceutical industry. The simulations are also done with some noise in the measurement and we see the effect of that. The lower left corner of the design space then get somewhat rounded. The simulations and diagrams you see in the Jypyter notebook metnioned below.
 
 In practice a sensitivity analysis is often done experimentally and by reduced factor design of experiments and only a few experiments are needed. It is interesting to see how computer simulation can contribute to facilitate the experimental work. This is discussed in the following conference contribution 2019:
 
