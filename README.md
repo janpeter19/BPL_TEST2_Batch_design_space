@@ -15,7 +15,11 @@ In practice a sensitivity analysis is often done experimentally and by reduced f
 Axelsson J.P. and A. Elsheikh: “An example of sensitivity analysis of a bioprocess using Bioprocess Library for Modelica”, Proceedings MODPROD, Linköping, Sweden 2019, see presentation
 [here](https://modprodblog.wordpress.com/modprod-2019/).
 
-A Jupyter notebook that generate figures shown and also include a version with measurement noise you can run here BPL_TEST2_Batch_design_space.
+A Jupyter notebook that generate figures shown and also include a version with measurement noise you can run here
+[start BPL notebook](https://colab.research.google.com/github/janpeter19/BPL_TEST2_Batch_design_space/blob/main/BPL_TEST2_Batch_design_space_colab.ipynb).
+In the menu choose Runtime/Run all. The installation takes just a few minutes. The subsequent execution of all the simulations take just about a minute or so.
+
+You can continue in the notebook and make new simulations and follow the examples given. Here are many things to explore!
 
 Information about Bioprocess Library _for_ Modelica you find here: 
 [here](https://www.researchgate.net/project/Modelica-library-for-simulation-of-bioprocesses) 
