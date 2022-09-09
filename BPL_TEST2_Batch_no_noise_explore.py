@@ -1,7 +1,7 @@
 # Figure - Simulation of batch reactor 
 #          with functions added to facilitate explorative simulation work
 #
-# GNU General Public License v3.0
+# MIT License
 # Copyright (c) 2022, Jan Peter Axelsson, All rights reserved.
 #------------------------------------------------------------------------------------------------------------------
 # 2020-01-30 - Adpated to Python 3 and tested using Docker-Ubuntu FMU
