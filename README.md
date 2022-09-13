@@ -25,6 +25,6 @@ Information about Bioprocess Library _for_ Modelica you find here:
 [here](https://www.researchgate.net/project/Modelica-library-for-simulation-of-bioprocesses) 
 and under project log you find project updates that I hope will make you interested.
 
-Licenses:
+License information:
 * The binary-file with extension FMU is shared under the permissive MIT-license
 * The other files are shared under the GPL 3.0 license
