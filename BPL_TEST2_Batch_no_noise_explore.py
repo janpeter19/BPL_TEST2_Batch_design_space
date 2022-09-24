@@ -53,6 +53,7 @@
 # 2022-09-05 - Introduced describe_MSL() to handle MSL information, both version and usage
 # 2022-09-06 - Introduced new plotTypes for newplot()
 # 2022-09-07 - Adjust for no noise system
+# 2022-09-22 - Updated for FMU-explore 0.9.4 -include scipy version when used in the notebook
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -279,7 +280,7 @@ def describe(name, decimals=3):
       
 #------------------------------------------------------------------------------------------------------------------
 #  General code 
-FMU_explore = 'FMU-explore ver 0.9.3'
+FMU_explore = 'FMU-explore ver 0.9.4'
 #------------------------------------------------------------------------------------------------------------------
 
 # Define function par() for parameter update
@@ -536,6 +537,11 @@ def system_info():
    print('System information')
    print(' -OS:', platform.system())
    print(' -Python:', platform.python_version())
+   try:
+       scipy_ver = scipy.__version__
+       print(' -Scipy:',scipy_ver)
+   except NameError:
+       print(' -Scipy: not installed in the notebook')
    print(' -PyFMI:', version('pyfmi'))
    print(' -FMU by:', model.get_generation_tool())
    print(' -FMI:', model.get_version())
