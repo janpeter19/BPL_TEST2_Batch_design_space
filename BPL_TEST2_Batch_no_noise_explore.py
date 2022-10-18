@@ -1,5 +1,6 @@
 # Figure - Simulation of batch reactor 
-#          with functions added to facilitate explorative simulation work
+#          with a set of functions and global variables added to facilitate explorative simulation work.
+#          The general part of this code is called FMU-explore and is planned to be avaialbe as a separate package.
 #
 # MIT License
 # Copyright (c) 2022, Jan Peter Axelsson, All rights reserved.
@@ -54,6 +55,7 @@
 # 2022-09-06 - Introduced new plotTypes for newplot()
 # 2022-09-07 - Adjust for no noise system
 # 2022-09-22 - Updated for FMU-explore 0.9.4 -include scipy version when used in the notebook
+# 2022-10-05 - Updated for FMU-explore 0.9.5 with disp() that do not include extra parameters with parLocation
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -280,7 +282,7 @@ def describe(name, decimals=3):
       
 #------------------------------------------------------------------------------------------------------------------
 #  General code 
-FMU_explore = 'FMU-explore ver 0.9.4'
+FMU_explore = 'FMU-explore ver 0.9.5'
 #------------------------------------------------------------------------------------------------------------------
 
 # Define function par() for parameter update
@@ -320,7 +322,7 @@ def disp(name='', decimals=3, mode='short'):
    
    if mode in ['short']:
       k = 0
-      for Location in parLocation.values():
+      for Location in [parLocation[k] for k in parDict.keys()]:
          if name in Location:
             if type(model.get(Location)[0]) != np.bool_:
                print(dict_reverser(parLocation)[Location] , ':', np.round(model.get(Location)[0],decimals))
@@ -337,7 +339,7 @@ def disp(name='', decimals=3, mode='short'):
                   print(parName,':', model.get(parLocation[parName])[0])
    if mode in ['long','location']:
       k = 0
-      for Location in parLocation.values():
+      for Location in [parLocation[k] for k in parDict.keys()]:
          if name in Location:
             if type(model.get(Location)[0]) != np.bool_:       
                print(Location,':', dict_reverser(parLocation)[Location] , ':', np.round(model.get(Location)[0],decimals))
