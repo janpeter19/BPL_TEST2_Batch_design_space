@@ -58,6 +58,7 @@
 # 2022-10-05 - Updated for FMU-explore 0.9.5 with disp() that do not include extra parameters with parLocation
 # 2023-02-09 - Updated to FMU-explore 0.9.6e
 # 2023-02-13 - Consolidate FMU-explore to 0.9.6 and means parCheck and par() udpate and simu() with opts as arg
+# 2023-02-24 - Corrected MSL-suage information for OpenModelica Linux
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -127,7 +128,7 @@ if flag_vendor in ['JM', 'jm']:
    MSL_version = model.get('MSL.version')[0]
    BPL_version = model.get('BPL.version')[0]
 elif flag_vendor in ['OM', 'om']:
-   MSL_usage = '3.2.3 - used components: RealInput, RealOutput, CombiTimeTable, Types' 
+   MSL_usage = '3.2.3 - used components: RealInput, RealOutput' 
    MSL_version = '3.2.3'
    BPL_version = 'Bioprocess Library version 2.1.1-beta' 
 else:    
