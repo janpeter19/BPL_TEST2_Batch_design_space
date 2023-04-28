@@ -21,6 +21,8 @@ In the menu choose Runtime/Run all. The installation takes just a few minutes. T
 
 You can continue in the notebook and make new simulations and follow the examples given. Here are many things to explore!
 
+See also the related repositories: BPL_TEST2_Batch and BPL_TEST2_Batch_calibration.
+
 Information about Bioprocess Library _for_ Modelica you find here: 
 [here](https://www.researchgate.net/project/Modelica-library-for-simulation-of-bioprocesses) 
 and under project log you find project updates that I hope will make you interested.
