@@ -10,6 +10,7 @@
 # 2023-03-24 - Declare stateDict initially instead call it FMU-explore 0.9.7d in development
 # 2023-03-27 - Simplify generation of stateDict and simu() error handling - still 0.9.7d
 # 2023-03-28 - Modification around options and corresponding for simu() - call it 0.9.7
+# 2023-05-31 - Adjusted to from importlib.meetadata import version
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -28,7 +29,7 @@ from fmpy import read_model_description
 import fmpy as fmpy
 
 from itertools import cycle
-from importlib_metadata import version   # included in future Python 3.8
+from importlib.metadata import version   
 
 # Set the environment - for Linux a JSON-file in the FMU is read
 if platform.system() == 'Linux': locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')

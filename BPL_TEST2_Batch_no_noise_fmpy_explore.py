@@ -61,6 +61,7 @@
 # 2023-02-24 - Corrected MSL-usage information for OpenModelica Linux
 # 2023-03-29 - Update FMU-explore 0.9.7
 # 2023-03-30 - Update FMU-explore 0.9.7 for FMPy
+# 2023-05-31 - Adjusted to from importlib.meetadata import version
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -79,7 +80,7 @@ from fmpy import read_model_description
 import fmpy as fmpy
 
 from itertools import cycle
-from importlib_metadata import version   # included in future Python 3.8
+from importlib.metadata import version  
 
 # Set the environment - for Linux a JSON-file in the FMU is read
 if platform.system() == 'Linux': locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
