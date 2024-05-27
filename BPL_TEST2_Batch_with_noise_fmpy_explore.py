@@ -11,6 +11,7 @@
 # 2023-03-27 - Simplify generation of stateDict and simu() error handling - still 0.9.7d
 # 2023-03-28 - Modification around options and corresponding for simu() - call it 0.9.7
 # 2023-05-31 - Adjusted to from importlib.meetadata import version
+# 2024-05-27 - Update of FMU-explore for FMPy to 1.0.0
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -22,14 +23,16 @@ import sys
 import platform
 import locale
 import numpy as np 
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
+import matplotlib.image as img
+import zipfile 
 
 from fmpy import simulate_fmu
 from fmpy import read_model_description
 import fmpy as fmpy
 
 from itertools import cycle
-from importlib.metadata import version   
+from importlib.metadata import version
 
 # Set the environment - for Linux a JSON-file in the FMU is read
 if platform.system() == 'Linux': locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
@@ -47,19 +50,24 @@ if platform.system() == 'Windows':
    flag_vendor = 'JM'
    flag_type = 'CS'
 elif platform.system() == 'Linux':
-   print('Linux - run FMU pre-comiled JModelica 2.4')
-   fmu_model ='BPL_TEST2_BatchWithNoise_linux_jm_cs.fmu'        
-   model_description = read_model_description(fmu_model)  
    flag_vendor = 'OM'
    flag_type = 'ME'
-else:    
-   print('There is no FMU for this platform')
-
+   if flag_vendor in ['OM','om']:
+      print('Linux - run FMU pre-compiled OpenModelica 1.23.0-dev') 
+      if flag_type in ['CS','cs']:      
+         fmu_model ='BPL_TEST2_BatchWithNoise_linux_om_cs.fmu'       
+         model_description = read_model_description(fmu_model)  
+      if flag_type in ['ME','me']:         
+         fmu_model ='BPL_TEST2_BatchWithNoise_linux_om_me.fmu'   
+         model_description = read_model_description(fmu_model)  
+   else:    
+      print('There is no FMU for this platform')   
+   
 # Provide various opts-profiles
 if flag_type in ['CS', 'cs']:
-   opts_std = {'NCP': 500}
+   opts_std = {'ncp': 500}
 elif flag_type in ['ME', 'me']:
-   opts_std = {'NCP': 500}
+   opts_std = {'ncp': 500}
 else:    
    print('There is no FMU for this platform')
   
@@ -75,7 +83,7 @@ if flag_vendor in ['JM', 'jm']:
 elif flag_vendor in ['OM', 'om']:
    MSL_usage = '3.2.3 - used components: RealInput, RealOutput, LimPID-components' 
    MSL_version = '3.2.3'
-   BPL_version = 'Bioprocess Library version 2.1.1-beta' 
+   BPL_version = 'Bioprocess Library version 2.2.0' 
 else:    
    print('There is no FMU for this platform')
 
@@ -88,6 +96,9 @@ timeDiscreteStates = {}
 
 # Define a minimal compoent list of the model as a starting point for describe('parts')
 component_list_minimum = ['bioreactor', 'bioreactor.culture']
+
+# Provide process diagram on disk
+fmu_process_diagram ='BPL_TEST2_Perfusion_process_diagram_om.png'
 
 #------------------------------------------------------------------------------------------------------------------
 #  Specific application constructs: stateDict, parDict, diagrams, newplot(), describe()
@@ -103,17 +114,17 @@ global stateDictInitial; stateDictInitial = {}
 for key in stateDict.keys():
     if not key[-1] == ']':
          if key[-3:] == 'I.y':
-            stateDictInitial[key] = key[:-10]+'I_0'
+            stateDictInitial[key] = key[:-10]+'I_start'
          elif key[-3:] == 'D.x':
-            stateDictInitial[key] = key[:-10]+'D_0'
+            stateDictInitial[key] = key[:-10]+'D_start'
          else:
-            stateDictInitial[key] = key+'_0'
+            stateDictInitial[key] = key+'_start'
     elif key[-3] == '[':
-        stateDictInitial[key] = key[:-3]+'_0'+key[-3:]
+        stateDictInitial[key] = key[:-3]+'_start'+key[-3:]
     elif key[-4] == '[':
-        stateDictInitial[key] = key[:-4]+'_0'+key[-4:]
+        stateDictInitial[key] = key[:-4]+'_start'+key[-4:]
     elif key[-5] == '[':
-        stateDictInitial[key] = key[:-5]+'_0'+key[-5:] 
+        stateDictInitial[key] = key[:-5]+'_start'+key[-5:] 
     else:
         print('The state vector has more than 1000 states')
         break
@@ -124,9 +135,9 @@ for value in stateDictInitial.values():
 
 # Create dictionaries parDict[] and parLocation[]
 global parDict; parDict = {}
-parDict['V_0'] = 1.0
-parDict['VX_0'] = 1.0
-parDict['VS_0'] = 10.0
+parDict['V_start'] = 1.0
+parDict['VX_start'] = 1.0
+parDict['VS_start'] = 10.0
 
 parDict['Y'] = 0.5
 parDict['qSmax'] = 1.0
@@ -143,9 +154,9 @@ parDict['useGlobalSeed'] = False
 parDict['useAutomaticLocalSeed'] = False
 
 global parLocation; parLocation = {}
-parLocation['V_0'] = 'bioreactor.V_0'
-parLocation['VX_0'] = 'bioreactor.m_0[1]' 
-parLocation['VS_0'] = 'bioreactor.m_0[2]' 
+parLocation['V_start'] = 'bioreactor.V_start'
+parLocation['VX_start'] = 'bioreactor.m_start[1]' 
+parLocation['VS_start'] = 'bioreactor.m_start[2]' 
 
 parLocation['Y'] = 'bioreactor.culture.Y'
 parLocation['qSmax'] = 'bioreactor.culture.qSmax'
@@ -166,9 +177,9 @@ global parCheck; parCheck = []
 parCheck.append("parDict['Y'] > 0")
 parCheck.append("parDict['qSmax'] > 0")
 parCheck.append("parDict['Ks'] > 0")
-parCheck.append("parDict['V_0'] > 0")
-parCheck.append("parDict['VX_0'] >= 0")
-parCheck.append("parDict['VS_0'] >= 0")
+parCheck.append("parDict['V_start'] > 0")
+parCheck.append("parDict['VX_start'] >= 0")
+parCheck.append("parDict['VS_start'] >= 0")
 
 # Extended list of parameters and variables only for describe and not change
 global key_variables; key_variables = []
@@ -320,7 +331,7 @@ def describe(name, decimals=3):
       
 #------------------------------------------------------------------------------------------------------------------
 #  General code 
-FMU_explore = 'FMU-explore for FMPy version 0.9.7'
+FMU_explore = 'FMU-explore for FMPy version 1.0.0'
 #------------------------------------------------------------------------------------------------------------------
 
 # Define function par() for parameter update
@@ -342,12 +353,12 @@ def par(parDict=parDict, parCheck=parCheck, parLocation=parLocation, *x, **x_kwa
 
 # Define function init() for initial values update
 def init(parDict=parDict, *x, **x_kwarg):
-   """ Set initial values and the name should contain string '_0' to be accepted.
+   """ Set initial values and the name should contain string '_start' to be accepted.
        The function can handle general parameter string location names if entered as a dictionary. """
    x_kwarg.update(*x)
    x_init={}
    for key in x_kwarg.keys():
-      if '_0' in key: 
+      if '_start' in key: 
          x_init.update({key: x_kwarg[key]})
       else:
          print('Error:', key, '- seems not an initial value, use par() instead - check the spelling')
@@ -479,7 +490,7 @@ def simu(simulationTime=simulationTime, mode='Initial', options=opts_std, diagra
          validate = False,
          start_time = 0,
          stop_time = simulationTime,
-         output_interval = simulationTime/options['NCP'],
+         output_interval = simulationTime/options['ncp'],
          record_events = True,
          start_values = start_values,
          fmi_call_logger = None,
@@ -515,7 +526,7 @@ def simu(simulationTime=simulationTime, mode='Initial', options=opts_std, diagra
             validate = False,
             start_time = prevFinalTime,
             stop_time = prevFinalTime + simulationTime,
-            output_interval = simulationTime/options['NCP'],
+            output_interval = simulationTime/options['ncp'],
             record_events = True,
             start_values = start_values,
             fmi_call_logger = None,
@@ -615,6 +626,20 @@ def describe_general(name, decimals):
             print(description, ':', value)     
       else:
          print(description, ':', np.round(value, decimals), '[',unit,']')
+
+# Plot process diagram
+def process_diagram(fmu_model=fmu_model, fmu_process_diagram=fmu_process_diagram):   
+   try:
+       process_diagram = zipfile.ZipFile(fmu_model, 'r').open('documentation/processDiagram.png')
+   except KeyError:
+       print('No processDiagram.png file in the FMU, but try the file on disk.')
+       process_diagram = fmu_process_diagram
+   try:
+       plt.imshow(img.imread(process_diagram))
+       plt.axis('off')
+       plt.show()
+   except FileNotFoundError:
+       print('And no such file on disk either')
          
 # Describe framework
 def BPL_info():
@@ -629,6 +654,7 @@ def BPL_info():
    print(' - describe()  - describe culture, broth, parameters, variables with values/units')
    print()
    print('Note that both disp() and describe() takes values from the last simulation')
+   print('and the command process_diagram() brings up the main configuration')
    print()
    print('Brief information about a command by help(), eg help(simu)') 
    print('Key system information is listed with the command system_info()')
