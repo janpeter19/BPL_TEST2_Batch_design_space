@@ -131,7 +131,7 @@ if flag_vendor in ['JM', 'jm']:
    MSL_version = model.get('MSL.version')[0]
    BPL_version = model.get('BPL.version')[0]
 elif flag_vendor in ['OM', 'om']:
-   MSL_usage = '3.2.3 - used components: RealInput, RealOutput' 
+   MSL_usage = '3.2.3 - used components: Noise.NormalNoise' 
    MSL_version = '3.2.3'
    BPL_version = 'Bioprocess Library version 2.2.0' 
 else:    
