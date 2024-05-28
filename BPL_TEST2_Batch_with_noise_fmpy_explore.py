@@ -12,6 +12,7 @@
 # 2023-03-28 - Modification around options and corresponding for simu() - call it 0.9.7
 # 2023-05-31 - Adjusted to from importlib.meetadata import version
 # 2024-05-27 - Update of FMU-explore for FMPy to 1.0.0
+# 2024-05-28 - Corrected mode.get() to model_get()
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
