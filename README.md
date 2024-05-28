@@ -16,7 +16,9 @@ Axelsson J.P. and A. Elsheikh: “An example of sensitivity analysis of a biopro
 [here](https://modprodblog.wordpress.com/modprod-2019/).
 
 A Jupyter notebook that generate figures shown and also include a version with measurement noise you can run here
-[start BPL notebook](https://colab.research.google.com/github/janpeter19/BPL_TEST2_Batch_design_space/blob/main/BPL_TEST2_Batch_design_space_colab.ipynb).
+[start BPL notebook](https://colab.research.google.com/github/janpeter19/BPL_TEST2_Batch_design_space/blob/main/BPL_TEST2_Batch_design_space_colab.ipynb)
+or alternatively 
+[start BPL notebook with FMPy](https://colab.research.google.com/github/janpeter19/BPL_TEST2_Batch_design_space/blob/main/BPL_TEST2_Batch_design_space_fmpy_colab.ipynb).
 In the menu choose Runtime/Run all. The installation takes just a few minutes. The subsequent execution of all the simulations take just about a minute or so.
 
 You can continue in the notebook and make new simulations and follow the examples given. Here are many things to explore!
