@@ -272,7 +272,7 @@ def newplot(title='Batch cultivation', plotType='TimeSeries'):
       diagrams.append("ax1.plot(sim_res['time'],sim_res['bioreactor.c[2]'],color='b',linestyle=linetype)")   
       diagrams.append("ax1.legend(['X','S'])")   
       diagrams.append("ax2.plot(sim_res['time'],sim_res['sensor.out.c[2]'],color='b',linestyle=linetype)")   
-      diagrams.append("ax2.plot([0, simulationTime], [model.get('monitor.S_min'), model.get('monitor.S_min')],color='g',linestyle='--')")     
+      diagrams.append("ax2.plot([0, simulationTime], [model_get('monitor.S_min'), model_get('monitor.S_min')],color='g',linestyle='--')")     
       diagrams.append("ax3.plot(sim_res['time'],sim_res['bioreactor.culture.q[1]'],color='r',linestyle=linetype)")   
       diagrams.append("ax4.step(sim_res['time'],sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)") 
 
@@ -341,13 +341,13 @@ def describe(name, decimals=3):
  
    elif name in ['broth', 'liquidphase', 'media']: 
       """Describe medium used"""
-      X = model.get('liquidphase.X')[0] 
-      X_description = model.get_variable_description('liquidphase.X') 
-      X_mw = model.get('liquidphase.mw[1]')[0]
+      X = model_get('liquidphase.X')[0] 
+      X_description = model_get_variable_description('liquidphase.X') 
+      X_mw = model_get('liquidphase.mw[1]')[0]
          
-      S = model.get('liquidphase.S')[0] 
-      S_description = model.get_variable_description('liquidphase.S')
-      S_mw = model.get('liquidphase.mw[2]')[0]
+      S = model_get('liquidphase.S')[0] 
+      S_description = model_get_variable_description('liquidphase.S')
+      S_mw = model_get('liquidphase.mw[2]')[0]
          
       print()
       print('Reactor broth substances included in the model')
