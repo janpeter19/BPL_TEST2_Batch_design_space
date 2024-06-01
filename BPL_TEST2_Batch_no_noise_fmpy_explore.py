@@ -64,6 +64,7 @@
 # 2023-05-31 - Adjusted to from importlib.meetadata import version
 # 2024-05-27 - Update of FMU-explore for FMPy to 1.0.0
 # 2024-05-28 - Corrected mode.get() to model_get()
+# 2024-06-01 - Corrected model_get() to handle string values as well - improvement very small and keep ver 1.0.0
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -409,8 +410,11 @@ def model_get(parLoc, model_description=model_description):
          try:
             if par_var[k].name in start_values.keys():
                   value = start_values[par_var[k].name]
-            elif par_var[k].variability in ['constant', 'fixed']:        
-                  value = float(par_var[k].start)     
+            elif par_var[k].variability in ['constant', 'fixed']: 
+               if par_var[k].type in ['Integer', 'Real']: 
+                  value = float(par_var[k].start)      
+               if par_var[k].type in ['String']: 
+                  value = par_var[k].start                        
             elif par_var[k].variability == 'continuous':
                try:
                   timeSeries = sim_res[par_var[k].name]
@@ -422,7 +426,7 @@ def model_get(parLoc, model_description=model_description):
                value = None
          except NameError:
             print('Error: Information available after first simution')
-            value = None
+            value = None          
    return value
 
 def model_get_variable_description(parLoc, model_description=model_description):
