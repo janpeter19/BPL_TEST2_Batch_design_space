@@ -61,6 +61,7 @@
 # 2023-03-29 - Update FMU-explore 0.9.7
 # 2023-05-31 - Adjusted to from importlib.meetadata import version
 # 2024-05-27 - Update FMU-explore 1.0.0
+# 2024-11-08 - Update BPL 2.3.0
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -133,7 +134,7 @@ if flag_vendor in ['JM', 'jm']:
 elif flag_vendor in ['OM', 'om']:
    MSL_usage = '3.2.3 - used components: Noise.NormalNoise' 
    MSL_version = '3.2.3'
-   BPL_version = 'Bioprocess Library version 2.2.2 - GUI' 
+   BPL_version = 'Bioprocess Library version 2.3.0' 
 else:    
    print('There is no FMU for this platform')
 
