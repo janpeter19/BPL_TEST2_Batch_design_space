@@ -15,6 +15,7 @@
 # 2024-05-28 - Corrected mode.get() to model_get()
 # 2024-06-01 - Corrected model_get() to handle string values as well - improvement very small and keep ver 1.0.0
 # 2024-08-20 - Corrected model_get() to handle calculatedParameters - call it ver 1.0.1
+# 2024-11-08 - Update to BPL 2.3.0
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ if flag_vendor in ['JM', 'jm']:
 elif flag_vendor in ['OM', 'om']:
    MSL_usage = '3.2.3 - used components: Noise.NormalNoise' 
    MSL_version = '3.2.3'
-   BPL_version = 'Bioprocess Library version 2.2.2 - GUI' 
+   BPL_version = 'Bioprocess Library version 2.3.0' 
 else:    
    print('There is no FMU for this platform')
 
@@ -101,7 +102,7 @@ timeDiscreteStates = {}
 component_list_minimum = ['bioreactor', 'bioreactor.culture']
 
 # Provide process diagram on disk
-fmu_process_diagram ='BPL_TEST2_Perfusion_process_diagram_om.png'
+fmu_process_diagram =''
 
 #------------------------------------------------------------------------------------------------------------------
 #  Specific application constructs: stateDict, parDict, diagrams, newplot(), describe()
