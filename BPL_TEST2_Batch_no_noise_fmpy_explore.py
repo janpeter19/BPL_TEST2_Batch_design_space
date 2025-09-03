@@ -69,6 +69,7 @@
 # 2024-11-08 - Update to BPL 2.3.0
 # 2025-06-16 - Test MSL 4.1.0 with OpenModelica genreated FMU
 # 2025-07-28 - Update BPL 2.3.1
+# 2025-09-01 - Test of FMU made in Ubuntu 24.04 and run in Ubuntu 24.04 and does work, same as earlier
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -115,7 +116,8 @@ elif platform.system() == 'Linux':
          fmu_model ='BPL_TEST2_BatchNoNoise_linux_om_cs.fmu'    
          model_description = read_model_description(fmu_model)  
       if flag_type in ['ME','me']:         
-         fmu_model ='BPL_TEST2_BatchNoNoise_linux_om_me.fmu'    
+         fmu_model ='BPL_TEST2_BatchNoNoise_linux_om_me.fmu' 
+#        fmu_model ='BPL_TEST2_BatchNoNoise_linux_2404_om_me.fmu'    
          model_description = read_model_description(fmu_model)  
    else:    
       print('There is no FMU for this platform')
