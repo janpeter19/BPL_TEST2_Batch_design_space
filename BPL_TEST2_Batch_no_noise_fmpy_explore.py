@@ -70,6 +70,7 @@
 # 2025-06-16 - Test MSL 4.1.0 with OpenModelica genreated FMU
 # 2025-07-28 - Update BPL 2.3.1
 # 2025-09-01 - Test of FMU made in Ubuntu 24.04 and run in Ubuntu 24.04 and does work, same as earlier
+# 2025-09-05 - Added process diagram BPL_TEST2_Batch_with_noise and use that also here - preliminary
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -158,7 +159,7 @@ timeDiscreteStates = {}
 component_list_minimum = ['bioreactor', 'bioreactor.culture']
 
 # Provide process diagram on disk
-fmu_process_diagram =''
+fmu_process_diagram ='BPL_TEST2_Batch_with_noise_om.png'
 
 #------------------------------------------------------------------------------------------------------------------
 #  Specific application constructs: stateDict, parDict, diagrams, newplot(), describe()
