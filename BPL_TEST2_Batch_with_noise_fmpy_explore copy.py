@@ -1,66 +1,15 @@
 # Figure - Simulation of batch reactor 
-#          with a set of functions and global variables added to facilitate explorative simulation work.
-#          The general part of this code is called FMU-explore and is planned to be avaialbe as a separate package.
+#          with functions added to facilitate explorative simulation work
 #
-# MIT License
+# GNU General Public License v3.0
 # Copyright (c) 2022, Jan Peter Axelsson, All rights reserved.
 #------------------------------------------------------------------------------------------------------------------
-# 2020-01-30 - Adpated to Python 3 and tested using Docker-Ubuntu FMU
-#            - Introduced locale and setting of it - important for OpenModelica
-#            - Introduced check of platform to adapt code for Windows/Linux in dialog
-#            - print()
-#            - np.nan
-# 2020-01-31 - Object oriented diagrams
-#            - Simplified handling of simulation results 
-# 2020-02-01 - Adjusted describeMeium() to get the look better
-# 2020-02-02 - Now only for Python 3, i.e. special Python 2 script for compilation
-# 2020-02-04 - Update describe() to include time
-# 2020-02-20 - Modified the script to be like for the BPL - student version
-# 2020-02-20 - Modified the script for Jupyter: simu() no plt.show() and use opts
-#------------------------------------------------------------------------------------------------------------------
-# 2020-07-13 - Start for BP6a_test2 inherited from br5
-# 2020-07-27 - Introduce choice of Linux FMU - JModelica or OpenModelica
-# 2020-07-27 - Change of simu('cont') and handling of stateDict and model.get..
-# 2020-10-01 - Upddated with new BP6a from BP6c
-# 2020-10-10 - Simplified Yxs to Y
-# 2020-11-21 - Adapted to ReactorType with n_inlets, n_outlets and n_ports
-# 2021-02-04 - Adjust describe() for change to liquidphase
-#------------------------------------------------------------------------------------------------------------------
-# 2021-02-10 - Adapted for BPL_v2
-# 2021-03-20 - Adapted for BPL ver 2.0.3
-# 2021-04-25 - Adapted for BPL ver 2.0.4
-#------------------------------------------------------------------------------------------------------------------
-# 2021-05-06 - Adapted for BPL ver 2.0.5 and updated BPL interface
-# 2021-05-10 - Tidy up indentations
-# 2021-05-17 - Enable also to run on Linux
-# 2021-05-19 - Corrected indentation in describe() and default value give for disp()
-# 2021-05-22 - Improved decribe() to include short names in par[]
-# 2021-05-24 - Shortened the command in simu() to update parameters and initial values
-# 2021-05-25 - Change to parDict and parLocation and use par() for parDict.update()
-# 2021-05-26 - Introduced init() again that is useful for clarity but par() can still be used 
-# 2021-06-05 - Updated init() to handle also strings
-# 2021-06-24 - Moved to BPL_dev and test on integration of newplot() and simu()
-# 2021-06-25 - For newplot() added on alternative "PhasePlane" again and took away safetey around eval in simu()
-# 2021-08-05 - Introduced describe_parts() and corrected disp() to handle number of displayed decimals 
-# 2021-09-13 - Tested with BPL ver 2.0.7
-# 2021-10-02 - Updated system_info() with FMU-explore version
-# 2022-01-25 - Updated to FMU-explore 0.8.8
-# 2022-02-01 - Updated to FMU-explore 0.8.9
-# 2022-03-26 - Updated to FMU-explore 0.9.0 - model.reset(), and par(), init()
-# 2022-04-29 - Updated to FMU-explore 0.9.1 
-# 2022-05-28 - Introduce variable mu in parLocation for use in describe() but also disp()
-# 2022-09-03 - Adapt for design space studies
-# 2022-09-04 - FMU-explore extended exception list in describe_parts but could perhaps improve MSL.usage further
-# 2022-09-05 - Introduced describe_MSL() to handle MSL information, both version and usage
 # 2022-09-06 - Introduced new plotTypes for newplot()
-# 2022-09-07 - Adjust for no noise system
-# 2022-09-22 - Updated for FMU-explore 0.9.4 -include scipy version when used in the notebook
-# 2022-10-05 - Updated for FMU-explore 0.9.5 with disp() that do not include extra parameters with parLocation
-# 2023-02-09 - Updated to FMU-explore 0.9.6e
-# 2023-02-13 - Consolidate FMU-explore to 0.9.6 and means parCheck and par() udpate and simu() with opts as arg
-# 2023-02-24 - Corrected MSL-usage information for OpenModelica Linux
-# 2023-03-29 - Update FMU-explore 0.9.7
-# 2023-03-30 - Update FMU-explore 0.9.7 for FMPy
+# 2022-10-06 - Updated for FMU-explore 0.9.5 with disp() that do not include extra parameters with parLocation
+# 2023-03-01 - Update FMU-explore for FMPy 0.9.6 in one leap and added list key_variables for logging
+# 2023-03-24 - Declare stateDict initially instead call it FMU-explore 0.9.7d in development
+# 2023-03-27 - Simplify generation of stateDict and simu() error handling - still 0.9.7d
+# 2023-03-28 - Modification around options and corresponding for simu() - call it 0.9.7
 # 2023-05-31 - Adjusted to from importlib.meetadata import version
 # 2024-05-27 - Update of FMU-explore for FMPy to 1.0.0
 # 2024-05-28 - Corrected mode.get() to model_get()
@@ -69,10 +18,9 @@
 # 2024-11-08 - Update to BPL 2.3.0
 # 2025-06-16 - Test MSL 4.1.0 with OpenModelica genreated FMU
 # 2025-07-28 - Update BPL 2.3.1
-# 2025-09-01 - Test of FMU made in Ubuntu 24.04 and run in Ubuntu 24.04 and does work, same as earlier
-# 2025-09-05 - Added process diagram BPL_TEST2_Batch_with_noise and use that also here - preliminary
+# 2025-09-01 - Test of FMU made in Ubuntu 24.04 and run in Ubuntu 24.04 and does not work, same as earlier
+# 2025-09-05 - Added process diagram BPL_TEST2_Batch_with_noise 
 # 2025-11-10 - Update FMU-explore 1.0.2
-# 2025-11-16 - FMU-explore 1.0.2 corrected
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -103,55 +51,55 @@ if platform.system() == 'Linux': locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 #------------------------------------------------------------------------------------------------------------------
 
 # Provde the right FMU and load for different platforms in user dialogue:
+global model_description
 if platform.system() == 'Windows':
    print('Windows - run FMU pre-compiled JModelica 2.14')
+   fmu_model ='BPL_TEST2_BatchWithNoise_windows_jm_cs.fmu'        
+   model_description = read_model_description(fmu_model)  
    flag_vendor = 'JM'
    flag_type = 'CS'
-   fmu_model ='BPL_TEST2_BatchNoNoise_windows_jm_cs.fmu'        
-   model_description = read_model_description(fmu_model)   
 elif platform.system() == 'Linux':
    flag_vendor = 'OM'
    flag_type = 'ME'
    if flag_vendor in ['OM','om']:
       print('Linux - run FMU pre-compiled OpenModelica') 
-      if flag_type in ['CS','cs']:         
-         fmu_model ='BPL_TEST2_BatchNoNoise_linux_om_cs.fmu'    
+      if flag_type in ['CS','cs']:      
+         fmu_model ='BPL_TEST2_BatchWithNoise_linux_om_cs.fmu'       
          model_description = read_model_description(fmu_model)  
       if flag_type in ['ME','me']:         
-         fmu_model ='BPL_TEST2_BatchNoNoise_linux_om_me.fmu' 
-#        fmu_model ='BPL_TEST2_BatchNoNoise_linux_2404_om_me.fmu'    
+         fmu_model ='BPL_TEST2_BatchWithNoise_linux_om_me.fmu'  
+#        fmu_model ='BPL_TEST2_BatchWithNoise_linux_2404_om_me.fmu'   
          model_description = read_model_description(fmu_model)  
    else:    
-      print('There is no FMU for this platform')
-
+      print('There is no FMU for this platform')   
+   
 # Provide various opts-profiles
 if flag_type in ['CS', 'cs']:
-   opts_std = {'NCP': 500}
+   opts_std = {'ncp': 500}
 elif flag_type in ['ME', 'me']:
-   opts_std = {'NCP': 500}
+   opts_std = {'ncp': 500}
 else:    
    print('There is no FMU for this platform')
   
 # Provide various MSL and BPL versions
 if flag_vendor in ['JM', 'jm']:
-#   MSL_usage = model.get('MSL.usage')[0]
    constants = [v for v in model_description.modelVariables if v.causality == 'local'] 
-   MSL_usage = [x[1] for 
-      x in [(constants[k].name, constants[k].start) for k in range(len(constants))] if 'MSL.usage' in x[0]][0]   
-   MSL_version = [x[1] for 
-      x in [(constants[k].name, constants[k].start) for k in range(len(constants))] if 'MSL.version' in x[0]][0]
-   BPL_version = [x[1] for 
-      x in [(constants[k].name, constants[k].start) for k in range(len(constants))] if 'BPL.version' in x[0]][0] 
+   MSL_usage = [x[1] for x in [(constants[k].name, constants[k].start) \
+                     for k in range(len(constants))] if 'MSL.usage' in x[0]][0]   
+   MSL_version = [x[1] for x in [(constants[k].name, constants[k].start) \
+                       for k in range(len(constants))] if 'MSL.version' in x[0]][0]
+   BPL_version = [x[1] for x in [(constants[k].name, constants[k].start) \
+                       for k in range(len(constants))] if 'BPL.version' in x[0]][0] 
 elif flag_vendor in ['OM', 'om']:
-   MSL_usage = '4.1.0 - used components: none' 
+   MSL_usage = '4.1.0 - used components: Noise.NormalNoise' 
    MSL_version = '4.1.0'
    BPL_version = 'Bioprocess Library version 2.3.1' 
 else:    
    print('There is no FMU for this platform')
 
 # Simulation time
-simulationTime = 5.0
-prevFinalTime = 0
+global simulationTime; simulationTime = 5.0
+global prevFinalTime; prevFinalTime = 0
 
 # Dictionary of time discrete states
 timeDiscreteStates = {} 
@@ -160,10 +108,10 @@ timeDiscreteStates = {}
 component_list_minimum = ['bioreactor', 'bioreactor.culture']
 
 # Provide process diagram on disk
-fmu_process_diagram ='BPL_TEST2_Batch_with_noise_om.png'
+fmu_process_diagram = 'BPL_TEST2_Batch_with_noise_om.png'
 
 #------------------------------------------------------------------------------------------------------------------
-#  Specific application constructs: stateValue, parValue, diagrams, newplot(), describe()
+#  Specific application constructs: stateValue, parValue, parLocation, parCheck, diagrams, newplot(), describe()
 #------------------------------------------------------------------------------------------------------------------
 
 # Create stateValue that later will be used to store final state and used for initialization in 'cont':
@@ -172,7 +120,7 @@ stateValue = {variable.derivative.name:None for variable in model_description.mo
                                             if variable.derivative is not None}
 stateValue.update(timeDiscreteStates) 
 
-stateValueInitial = {}
+global stateValueInitial; stateValueInitial = {}
 for key in stateValue.keys():
     if not key[-1] == ']':
          if key[-3:] == 'I.y':
@@ -208,6 +156,12 @@ parValue['Ks'] = 0.1
 parValue['S_min'] = 1.0
 parValue['time_final_max'] = 6.0
 parValue['X_final_min'] = 5.0
+parValue['sigma'] = 0.48
+
+parValue['samplePeriod'] = 0.1
+parValue['seed'] = 1
+parValue['useGlobalSeed'] = False
+parValue['useAutomaticLocalSeed'] = False
 
 parLocation = {}
 parLocation['V_start'] = 'bioreactor.V_start'
@@ -221,6 +175,12 @@ parLocation['Ks'] = 'bioreactor.culture.Ks'
 parLocation['S_min'] = 'monitor.S_min'
 parLocation['time_final_max'] = 'monitor.time_final_max'
 parLocation['X_final_min'] = 'monitor.X_final_min'
+parLocation['sigma'] = 'sensor.sigma'
+
+parLocation['samplePeriod'] = 'sensor.samplePeriod'
+parLocation['seed'] = 'sensor.noise.fixedLocalSeed'
+parLocation['useGlobalSeed'] = 'sensor.noise.useGlobalSeed'
+parLocation['useAutomaticLocalSeed'] = 'sensor.noise.useAutomaticLocalSeed'
 
 # Parameter value check - especially for hysteresis to avoid runtime error
 parCheck = []
@@ -232,22 +192,23 @@ parCheck.append("parValue['VX_start'] >= 0")
 parCheck.append("parValue['VS_start'] >= 0")
 
 # Extended list of parameters and variables only for describe and not change
-keyVariables = []
-parLocation['mu'] = 'bioreactor.culture.mu'; keyVariables.append(parLocation['mu'])
-parLocation['bioreactor.c[1]'] = 'bioreactor.c[1]'; keyVariables.append(parLocation['bioreactor.c[1]'])
-parLocation['bioreactor.c[2]'] = 'bioreactor.c[2]'; keyVariables.append(parLocation['bioreactor.c[2]'])
-parLocation['bioreactor.culture.q[1]'] = 'bioreactor.culture.q[1]'; keyVariables.append(parLocation['bioreactor.culture.q[1]'])
-parLocation['monitor.time_final'] = 'monitor.time_final'; keyVariables.append(parLocation['monitor.time_final'])
-parLocation['monitor.X_final'] = 'monitor.X_final'; keyVariables.append(parLocation['monitor.X_final'])
-parLocation['monitor.batch_evaluation'] = 'monitor.batch_evaluation'; keyVariables.append(parLocation['monitor.batch_evaluation'])
-parLocation['monitor.S_min'] = 'monitor.S_min'; keyVariables.append(parLocation['monitor.S_min'])
-parLocation['sensor.out.c[2]'] = 'sensor.out.c[2]'; keyVariables.append(parLocation['sensor.out.c[2]'])
+global key_variables; key_variables = []
+parLocation['mu'] = 'bioreactor.culture.mu'; key_variables.append(parLocation['mu'])
+parLocation['bioreactor.c[1]'] = 'bioreactor.c[1]'; key_variables.append(parLocation['bioreactor.c[1]'])
+parLocation['bioreactor.c[2]'] = 'bioreactor.c[2]'; key_variables.append(parLocation['bioreactor.c[2]'])
+parLocation['bioreactor.culture.q[1]'] = 'bioreactor.culture.q[1]'; key_variables.append(parLocation['bioreactor.culture.q[1]'])
+parLocation['monitor.time_final'] = 'monitor.time_final'; key_variables.append(parLocation['monitor.time_final'])
+parLocation['monitor.X_final'] = 'monitor.X_final'; key_variables.append(parLocation['monitor.X_final'])
+parLocation['monitor.batch_evaluation'] = 'monitor.batch_evaluation'; key_variables.append(parLocation['monitor.batch_evaluation'])
+parLocation['monitor.S_min'] = 'monitor.S_min'; key_variables.append(parLocation['monitor.S_min'])
+parLocation['sensor.out.c[2]'] = 'sensor.out.c[2]'; key_variables.append(parLocation['sensor.out.c[2]'])
 
 # Create list of diagrams to be plotted by simu()
+global diagrams
 diagrams = []
 
 # Define standard diagrams
-def newplot(title='Batch cultivation', plotType='TimeSeries'):
+def newplot(title='Batch cultivation - noise on S only', plotType='TimeSeries'):
    """ Standard plot window
         title = ''
        two possible diagrams
@@ -288,38 +249,43 @@ def newplot(title='Batch cultivation', plotType='TimeSeries'):
    elif plotType == 'TimeSeries_2':
 
       plt.figure()
-      ax1 = plt.subplot(4,1,1)
-      ax2 = plt.subplot(4,1,2)
-      ax3 = plt.subplot(4,1,3)
-      ax4 = plt.subplot(4,1,4)
+      ax1 = plt.subplot(5,1,1)
+      ax2 = plt.subplot(5,1,2)
+      ax3 = plt.subplot(5,1,3)
+      ax4 = plt.subplot(5,1,4)
+      ax5 = plt.subplot(5,1,5)
 
       ax1.set_title(title)  
       ax1.set_ylabel('X [g/L]'); ax1.grid()     
       ax2.set_ylabel('S [g/L]'); ax2.grid()    
-      ax3.set_ylabel('mu [1/h]'); ax3.grid()   
-      ax4.set_ylabel('Batch evaluation'); ax4.set_xlabel('Time [h]'); ax4.grid()      
+      ax3.set_ylabel('mu [1/h]'); ax3.grid()
+      ax4.set_ylabel('S measured [g/L]'); ax4.grid()      
+      ax5.set_ylabel('Batch evaluation'); ax5.set_xlabel('Time [h]'); ax5.grid()      
           
       # List of commands to be executed by simu() after a simulation  
       diagrams.clear()
       diagrams.append("ax1.plot(sim_res['time'],sim_res['bioreactor.c[1]'],color='b',linestyle=linetype)")
       diagrams.append("ax2.plot(sim_res['time'],sim_res['bioreactor.c[2]'],color='b',linestyle=linetype)")  
-      diagrams.append("ax2.plot([0, simulationTime], [model_get('monitor.S_min'), model_get('monitor.S_min')],color='g',linestyle='--')") 
-      diagrams.append("ax3.plot(sim_res['time'],sim_res['bioreactor.culture.q[1]'],color='b',linestyle=linetype)")      
-      diagrams.append("ax4.step(sim_res['time'],sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)") 
+      diagrams.append("ax3.plot(sim_res['time'],sim_res['bioreactor.culture.q[1]'],color='b',linestyle=linetype)")     
+      diagrams.append("ax4.plot(sim_res['time'],sim_res['sensor.out.c[2]'],color='b',linestyle=linetype)")   
+      diagrams.append("ax4.plot([0, simulationTime], [model_get('monitor.S_min'), model_get('monitor.S_min')],color='g',linestyle='--')")     
+      diagrams.append("ax5.step(sim_res['time'],sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)") 
 
    elif plotType == 'TimeSeries_2_diagrams':
 
       plt.figure()
-      ax1 = plt.subplot(4,1,1)
-      ax2 = plt.subplot(4,1,2)
-      ax3 = plt.subplot(4,1,3)
-      ax4 = plt.subplot(4,1,4)
+      ax1 = plt.subplot(5,1,1)
+      ax2 = plt.subplot(5,1,2)
+      ax3 = plt.subplot(5,1,3)
+      ax4 = plt.subplot(5,1,4)
+      ax5 = plt.subplot(5,1,5)
 
       ax1.set_title(title)  
       ax1.set_ylabel('X [g/L]'); ax1.grid()     
       ax2.set_ylabel('S [g/L]'); ax2.grid()    
-      ax3.set_ylabel('mu [1/h]'); ax3.grid() 
-      ax4.set_ylabel('Batch evaluation'); ax4.set_xlabel('Time [h]'); ax4.grid()      
+      ax3.set_ylabel('mu [1/h]'); ax3.grid()
+      ax4.set_ylabel('S measured [g/L]'); ax4.grid()      
+      ax5.set_ylabel('Batch evaluation'); ax5.set_xlabel('Time [h]'); ax5.grid()      
           
       # List of commands to be executed by simu() after a simulation  
       diagrams.clear()
@@ -352,11 +318,11 @@ def describe(name, decimals=3):
       """Describe medium used"""
       X = model_get('liquidphase.X')[0] 
       X_description = model_get_variable_description('liquidphase.X') 
-      X_mw = model_get('liquidphase.mw[1]')[0]
+      X_mw = model_get('liquidphase.mw[1]')
          
       S = model_get('liquidphase.S')[0] 
       S_description = model_get_variable_description('liquidphase.S')
-      S_mw = model_get('liquidphase.mw[2]')[0]
+      S_mw = model_get('liquidphase.mw[2]')
          
       print()
       print('Reactor broth substances included in the model')
@@ -379,8 +345,8 @@ FMU_explore = 'FMU-explore for FMPy version 1.0.2'
 #------------------------------------------------------------------------------------------------------------------
 
 # Define function par() for parameter update
-def par(*x, parValue=parValue, **x_kwarg):
-   """ Set parameter values if available in the predefined dictionary parValue. """
+def par(*x, parValue=parValue, parCheck=parCheck, parLocation=parLocation, **x_kwarg):
+   """ Set parameter values if available in the predefined dictionaryt parValue. """
    x_kwarg.update(*x)
    x_temp = {}
    for key in x_kwarg.keys():
@@ -396,7 +362,7 @@ def par(*x, parValue=parValue, **x_kwarg):
       for index, item in enumerate(parErrors): print(item)
 
 # Define function init() for initial values update
-def init(*x, parValue=parValue, **x_kwarg):
+def init(*x, parValue=parValue,  **x_kwarg):
    """ Set initial values and the name should contain string '_start' to be accepted.
        The function can handle general parameter string location names if entered as a dictionary. """
    x_kwarg.update(*x)
@@ -407,28 +373,6 @@ def init(*x, parValue=parValue, **x_kwarg):
       else:
          print('Error:', key, '- seems not an initial value, use par() instead - check the spelling')
    parValue.update(x_init)
-   
-# Define how to read dictionary for parameter values
-def readParValue(file, sheet, parValue=parValue):
-   """ Read parameter short names and values from an Excel-file from defined sheet. For use in the notebook!
-       Return a dictionary."""
-   parValue_local = {} 
-   table = pd.ExcelFile(file).parse(sheet)
-   for k in list(range(len(table))):
-      parValue_local[table['Par'][k]] = table['Value'][k]
-   parValue.update(parValue_local)
-
-# Define how to read dictionary for parameter location
-def readParLocation(file, parLocation=parLocation):
-   """ Read parameter short and long names from an Excel-file sheet by sheet. For use in the notebook!
-       Return a dictionary."""
-   sheets = ['initial_values','feed_AB', 'feed_G', 'culture', 'broth_decay']
-   parLocation_local = {}
-   for sheet in sheets:
-      table = pd.ExcelFile(file).parse(sheet)
-      for k in list(range(len(table))):
-         parLocation_local[table['Par'][k]] = table['Location'][k]
-   parLocation.update(parLocation_local)
 
 # Define fuctions similar to pyfmi model.get(), model.get_variable_descirption(), model.get_variable_unit()
 def model_get(parLoc, model_description=model_description):
@@ -437,18 +381,17 @@ def model_get(parLoc, model_description=model_description):
    for k in range(len(par_var)):
       if par_var[k].name == parLoc:
          try:
-            if (par_var[k].causality in ['local']) & (par_var[k].variability in ['constant']):
-               value = float(par_var[k].start)                 
-            elif par_var[k].causality in ['parameter']: 
-               value = float(par_var[k].start)  
-            elif par_var[k].causality in ['calculatedParameter']: 
-               value = float(sim_res[par_var[k].name][0]) 
-            elif par_var[k].name in start_values.keys():
-               value = start_values[par_var[k].name]   
+            if par_var[k].name in start_values.keys():
+                  value = start_values[par_var[k].name]
+            elif par_var[k].variability in ['constant', 'fixed']: 
+               if par_var[k].type in ['Integer', 'Real']: 
+                  value = float(par_var[k].start)      
+               if par_var[k].type in ['String']: 
+                  value = par_var[k].start                        
             elif par_var[k].variability == 'continuous':
                try:
                   timeSeries = sim_res[par_var[k].name]
-                  value = float(timeSeries[-1])
+                  value = timeSeries[-1]
                except (AttributeError, ValueError):
                   value = None
                   print('Variable not logged')
@@ -458,16 +401,18 @@ def model_get(parLoc, model_description=model_description):
             print('Error: Information available after first simution')
             value = None          
    return value
-
+   
 def model_get_variable_description(parLoc, model_description=model_description):
    """ Function corresponds to pyfmi model.get_variable_description() but returns just a value and not a list"""
    par_var = model_description.modelVariables
+#   value = [x[1] for x in [(par_var[k].name, par_var[k].description) for k in range(len(par_var))] if parLoc in x[0]]
    value = [x.description for x in par_var if parLoc in x.name]   
    return value[0]
    
 def model_get_variable_unit(parLoc, model_description=model_description):
    """ Function corresponds to pyfmi model.get_variable_unit() but returns just a value and not a list"""
    par_var = model_description.modelVariables
+#   value = [x[1] for x in [(par_var[k].name, par_var[k].unit) for k in range(len(par_var))] if parLoc in x[0]]
    value = [x.unit for x in par_var if parLoc in x.name]
    return value[0]
       
@@ -528,10 +473,10 @@ def show(diagrams=diagrams):
    for command in diagrams: eval(command)
 
 # Define simulation
-def simu(simulationTime=simulationTime, mode='Initial', options=opts_std, diagrams=diagrams, fmu_model=fmu_model, \
-         stateValue=stateValue, stateValueInitial=stateValueInitial, stateValueInitialLoc=stateValueInitialLoc, \
-         timeDiscreteStates=timeDiscreteStates, \
-         keyVariables=keyVariables, parValue=parValue, parLocation=parLocation):
+def simu(simulationTime=simulationTime, mode='Initial', options=opts_std, diagrams=diagrams, \
+         timeDiscreteStates=timeDiscreteStates, stateValue=stateValue, \
+         stateValueInitial=stateValueInitial, stateValueInitialLoc=stateValueInitialLoc, \
+         parValue=parValue, parLocation=parLocation, fmu_model=fmu_model):  
    """Model loaded and given intial values and parameter before, and plot window also setup before."""   
    
    # Global variables
@@ -565,7 +510,7 @@ def simu(simulationTime=simulationTime, mode='Initial', options=opts_std, diagra
          record_events = True,
          start_values = start_values,
          fmi_call_logger = None,
-         output = list(set(extract_variables(diagrams) + list(stateValue.keys()) + keyVariables))
+         output = list(set(extract_variables(diagrams) + list(stateValue.keys()) + key_variables))
       )
       
       simulationDone = True
@@ -601,7 +546,7 @@ def simu(simulationTime=simulationTime, mode='Initial', options=opts_std, diagra
             record_events = True,
             start_values = start_values,
             fmi_call_logger = None,
-            output = list(set(extract_variables(diagrams) + list(stateValue.keys()) + keyVariables))
+            output = list(set(extract_variables(diagrams) + list(stateValue.keys()) + key_variables))
          )
       
          simulationDone = True
@@ -701,12 +646,12 @@ def describe_general(name, decimals, parLocation=parLocation):
 # Plot process diagram
 def process_diagram(fmu_model=fmu_model, fmu_process_diagram=fmu_process_diagram):   
    try:
-       processDiagram = zipfile.ZipFile(fmu_model, 'r').open('documentation/processDiagram.png')
+       process_diagram = zipfile.ZipFile(fmu_model, 'r').open('documentation/processDiagram.png')
    except KeyError:
        print('No processDiagram.png file in the FMU, but try the file on disk.')
-       processDiagram = fmu_process_diagram
+       process_diagram = fmu_process_diagram
    try:
-       plt.imshow(img.imread(processDiagram))
+       plt.imshow(img.imread(process_diagram))
        plt.axis('off')
        plt.show()
    except FileNotFoundError:
