@@ -67,6 +67,7 @@
 # 2025-09-05 - Added process diagram BPL_TEST2_Batch_with_noise 
 # 2025-11-09 - FMU-explore 1.0.2
 # 2025-11-14 - FMU-explore 1.0.2 corrected
+# 2025-11-19 - FMU-explore 1.0.2 corrected again parLocation() with sheets as argument
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -396,10 +397,9 @@ def readParValue(file, sheet, parValue=parValue):
    parValue.update(parValue_local)
 
 # Define how to read dictionary for parameter location
-def readParLocation(file, parLocation=parLocation):
+def readParLocation(file, sheets, parLocation=parLocation):
    """ Read parameter short and long names from an Excel-file sheet by sheet. For use in the notebook!
        Return a dictionary."""
-   sheets = ['initial_values','feed_AB', 'feed_G', 'culture', 'broth_decay']
    parLocation_local = {}
    for sheet in sheets:
       table = pd.ExcelFile(file).parse(sheet)
