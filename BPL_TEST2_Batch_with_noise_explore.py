@@ -83,22 +83,25 @@ def newplot(title='Batch cultivation - noise on S only', plotType='TimeSeries'):
       
    elif plotType == 'TimeSeries_2_diagrams':
 
-      ax1 = plt.subplot(4,1,1)
-      ax2 = plt.subplot(4,1,2)
-      ax3 = plt.subplot(4,1,3)
-      ax4 = plt.subplot(4,1,4)
+      ax1 = plt.subplot(5,1,1)
+      ax2 = plt.subplot(5,1,2)
+      ax3 = plt.subplot(5,1,3)
+      ax4 = plt.subplot(5,1,4)
+      ax5 = plt.subplot(5,1,5)
       
       ax.clear()
       ax.append(ax1)
       ax.append(ax2)
       ax.append(ax3)
       ax.append(ax4)
+      ax.append(ax5)
 
       ax[0].set_title(title)  
       ax[0].set_ylabel('X [g/L]'); ax[0].grid()     
       ax[1].set_ylabel('S [g/L]'); ax[1].grid()    
       ax[2].set_ylabel('mu [1/h]'); ax[2].grid() 
-      ax[3].set_ylabel('Batch evaluation'); ax[3].set_xlabel('Time [h]'); ax[3].grid()      
+      ax[3].set_ylabel('S measured [g/L]'); ax[3].grid()   
+      ax[4].set_ylabel('Batch evaluation'); ax[4].set_xlabel('Time [h]'); ax[4].grid()      
           
       # List of commands to be executed by simu() after a simulation  
       diagrams.clear()
