@@ -2,6 +2,7 @@
 # Author: Jan Peter Axelsson
 #------------------------------------------------------------------------------------------------------------------
 # 2026-09-11 - Created from earlier script that originates from the fall 2022. Today FMU uses BPL 2.3.2.
+# 2026-09-12 - Corrected in newplot() diagram 'Time_series_2'
 #------------------------------------------------------------------------------------------------------------------
 
 # Define standard diagrams
@@ -47,31 +48,34 @@ def newplot(title='Batch cultivation - noise on S only', plotType='TimeSeries'):
 
    elif plotType == 'TimeSeries_2':
 
-      ax1 = plt.subplot(4,1,1)
-      ax2 = plt.subplot(4,1,2)
-      ax3 = plt.subplot(4,1,3)
-      ax4 = plt.subplot(4,1,4)
+      ax1 = plt.subplot(5,1,1)
+      ax2 = plt.subplot(5,1,2)
+      ax3 = plt.subplot(5,1,3)
+      ax4 = plt.subplot(5,1,4)
+      ax5 = plt.subplot(5,1,5)
 
       ax.clear()
       ax.append(ax1)
       ax.append(ax2)
       ax.append(ax3)
       ax.append(ax4)
+      ax.append(ax5)
 
       ax[0].set_title(title)  
       ax[0].set_ylabel('X [g/L]'); ax[0].grid()     
       ax[1].set_ylabel('S [g/L]'); ax[1].grid()    
-      ax[2].set_ylabel('mu [1/h]'); ax[2].grid()   
-      ax[3].set_ylabel('Batch evaluation'); ax[3].set_xlabel('Time [h]'); ax[3].grid()      
+      ax[2].set_ylabel('mu [1/h]'); ax[2].grid()
+      ax[3].set_ylabel('S measured [g/L]'); ax[3].grid()      
+      ax[4].set_ylabel('Batch evaluation'); ax[4].set_xlabel('Time [h]'); ax[4].grid()      
           
       # List of commands to be executed by simu() after a simulation  
       diagrams.clear()
       diagrams.append("ax[0].plot(sim_res['time'],sim_res['bioreactor.c[1]'],color='b',linestyle=linetype)")
       diagrams.append("ax[1].plot(sim_res['time'],sim_res['bioreactor.c[2]'],color='b',linestyle=linetype)")  
-      diagrams.append("ax[1].plot([0, simulationTime], [model_get('monitor.S_min'), model_get('monitor.S_min')],color='g',linestyle='--')") 
-      diagrams.append("ax[2].plot(sim_res['time'],sim_res['bioreactor.culture.q[1]'],color='b',linestyle=linetype)")      
-      diagrams.append("ax[3].step(sim_res['time'],sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)") 
-
+      diagrams.append("ax[2].plot(sim_res['time'],sim_res['bioreactor.culture.q[1]'],color='b',linestyle=linetype)")     
+      diagrams.append("ax[3].plot(sim_res['time'],sim_res['sensor.out.c[2]'],color='b',linestyle=linetype)")   
+      diagrams.append("ax[3].plot([0, simulationTime], [model_get('monitor.S_min'), model_get('monitor.S_min')],color='g',linestyle='--')")     
+      diagrams.append("ax[4].step(sim_res['time'],sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)")
 
    elif plotType == 'TimeSeries_2_diagrams':
 

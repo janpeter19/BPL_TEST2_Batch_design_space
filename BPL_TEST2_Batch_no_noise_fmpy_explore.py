@@ -1,7 +1,7 @@
 # Setup application functions BPL_TEST2_Batch_no_noise_fmpy, dependent on import of functions from fmu_explore 
 # Author: Jan Peter Axelsson
 #------------------------------------------------------------------------------------------------------------------
-# 2026-09-11 - Created from script that originates back in 2020
+# 2026-09-11 - Created from script that originates back in 2020. Today FMU uses BPL 2.3.2.
 #------------------------------------------------------------------------------------------------------------------
 
 # Define standard diagrams

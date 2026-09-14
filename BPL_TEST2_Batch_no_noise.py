@@ -1,7 +1,7 @@
 # setup data TEST2_Batch_no_noise 
 # Author: Jan Peter Axelsson
 #------------------------------------------------------------------------------------------------------------------
-# 2026-08-28 - Created
+# 2026-08-28 - Created from script that originates back in 2020. Today FMU uses BPL 2.3.2.
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -76,7 +76,6 @@ else:
 
 # Simulation time
 simulationTime = 5.0
-prevFinalTime = 0
 
 # Dictionary of time discrete states
 timeDiscreteStates = {} 

@@ -1,7 +1,7 @@
 # setup application functions BPL_TEST2_Batch_with_noise, dependent on previous import of functions from fmu_explore 
 # Author: Jan Peter Axelsson
 #------------------------------------------------------------------------------------------------------------------
-# 2026-08-28 - Created
+# 2026-08-28 - Created from script that originates back in the fall 2022. Today FMU uses BPL 2.3.2.
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
