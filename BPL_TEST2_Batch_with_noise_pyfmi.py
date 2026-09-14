@@ -1,7 +1,8 @@
-# setup data TEST2_Batch_no_noise 
+# setup data TEST2_Batch_with_noise_pyfmi 
 # Author: Jan Peter Axelsson
 #------------------------------------------------------------------------------------------------------------------
-# 2026-08-28 - Created from script that originates back in 2020. Today FMU uses BPL 2.3.2.
+# 2026-08-28 - Created from script that originates back in the fall 2022. Today FMU uses BPL 2.3.2.
+# 2026-09-14 - Move definition of stateValue to the fmu_explore_pyfmi module ver 1.2.0.
 #------------------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------------------
@@ -28,18 +29,18 @@ if platform.system() == 'Windows':
    print('Windows - run FMU pre-compiled JModelica 2.14')
    flag_vendor = 'JM'
    flag_type = 'CS'
-   fmu_model ='BPL_TEST2_BatchNoNoise_windows_jm_cs.fmu'        
+   fmu_model ='BPL_TEST2_BatchWithNoise_windows_jm_cs.fmu'        
    model = load_fmu(fmu_model, log_level=0)  
-elif platform.system() == 'Linux':  
+elif platform.system() == 'Linux':
    flag_vendor = 'OM'
    flag_type = 'ME'
    if flag_vendor in ['OM','om']:
       print('Linux - run FMU pre-compiled OpenModelica') 
       if flag_type in ['CS','cs']:         
-         fmu_model ='BPL_TEST2_BatchNoNoise_linux_om_cs.fmu'    
+         fmu_model ='BPL_TEST2_BatchWithNoise_linux_om_cs.fmu'    
          model = load_fmu(fmu_model, log_level=0) 
       if flag_type in ['ME','me']:         
-         fmu_model ='BPL_TEST2_BatchNoNoise_linux_om_me.fmu'    
+         fmu_model ='BPL_TEST2_BatchWithNoise_linux_om_me.fmu'    
          model = load_fmu(fmu_model, log_level=0)
    else:    
       print('There is no FMU for this platform')
@@ -64,12 +65,12 @@ if flag_vendor in ['JM', 'jm']:
    MSL_version = model.get('MSL.version')[0]
    BPL_version = model.get('BPL.version')[0]
 elif flag_vendor in ['OM', 'om']:
-   MSL_usage = '4.1.0 - used components: none' 
+   MSL_usage = '4.1.0 - used components: Noise.NormalNoise' 
    MSL_version = '4.1.0'
    BPL_version = 'Bioprocess Library version 2.3.2' 
 else:    
    print('There is no FMU for this platform')
-   
+
 #------------------------------------------------------------------------------------------------------------------
 #  Specific application constructs: stateValue, parValue, parLocation, parCheck, diagrams, ax, lines
 #------------------------------------------------------------------------------------------------------------------
@@ -79,11 +80,6 @@ simulationTime = 5.0
 
 # Dictionary of time discrete states
 timeDiscreteStates = {} 
-
-# Create stateValue that later will be used to store final state and used for initialization in 'cont':
-stateValue = {}
-stateValue = model.get_states_list()
-stateValue.update(timeDiscreteStates)
 
 # Define a minimal compoent list of the model as a starting point for describe('parts')
 component_list_minimum = ['bioreactor', 'bioreactor.culture']
@@ -104,6 +100,12 @@ parValue['Ks'] = 0.1
 parValue['S_min'] = 1.0
 parValue['time_final_max'] = 6.0
 parValue['X_final_min'] = 5.0
+parValue['sigma'] = 0.48
+
+parValue['samplePeriod'] = 0.1
+parValue['seed'] = 1
+parValue['useGlobalSeed'] = False
+parValue['useAutomaticLocalSeed'] = False
 
 parLocation = {}
 parLocation['V_start'] = 'bioreactor.V_start'
@@ -117,6 +119,12 @@ parLocation['Ks'] = 'bioreactor.culture.Ks'
 parLocation['S_min'] = 'monitor.S_min'
 parLocation['time_final_max'] = 'monitor.time_final_max'
 parLocation['X_final_min'] = 'monitor.X_final_min'
+parLocation['sigma'] = 'sensor.sigma'
+
+parLocation['samplePeriod'] = 'sensor.samplePeriod'
+parLocation['seed'] = 'sensor.noise.fixedLocalSeed'
+parLocation['useGlobalSeed'] = 'sensor.noise.useGlobalSeed'
+parLocation['useAutomaticLocalSeed'] = 'sensor.noise.useAutomaticLocalSeed'
 
 # Extra only for describe()
 parLocation['mu'] = 'bioreactor.culture.mu'
