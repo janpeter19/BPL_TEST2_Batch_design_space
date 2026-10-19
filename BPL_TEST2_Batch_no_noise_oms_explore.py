@@ -57,10 +57,10 @@ def newplot(title="Batch cultivation", plotType="TimeSeries"):
         # List of commands to be executed by simu() after a simulation
         diagrams.clear()
         diagrams.append(
-            "ax[0].plot(t, sim_res['Batch.bioreactor.c[1]'],color='r',linestyle=linetype)"
+            "ax[0].plot(t, sim_res['BatchNoNoise.bioreactor.c[1]'],color='r',linestyle=linetype)"
         )
         diagrams.append(
-            "ax[0].plot(t, sim_res['Batch.bioreactor.c[2]'],color='b',linestyle=linetype)"
+            "ax[0].plot(t, sim_res['BatchNoNoise.bioreactor.c[2]'],color='b',linestyle=linetype)"
         )
         diagrams.append("ax[0].legend(['X','S'])")
         diagrams.append(
@@ -70,10 +70,10 @@ def newplot(title="Batch cultivation", plotType="TimeSeries"):
 #            "ax[1].plot([0, simulationTime], [model.get('monitor.S_min'), model.get('monitor.S_min')],color='g',linestyle='--')"
 #        )
         diagrams.append(
-            "ax[2].plot(t, sim_res['Batch.bioreactor.culture.q[1]'],color='r',linestyle=linetype)"
+            "ax[2].plot(t, sim_res['BatchNoNoise.bioreactor.culture.q[1]'],color='r',linestyle=linetype)"
         )
         diagrams.append(
-            "ax[3].step(t, sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)"
+            "ax[3].step(t, sim_res['BatchNoNoise.monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)"
         )
 
     elif plotType == "TimeSeries_2":
@@ -103,19 +103,19 @@ def newplot(title="Batch cultivation", plotType="TimeSeries"):
         # List of commands to be executed by simu() after a simulation
         diagrams.clear()
         diagrams.append(
-            "ax[0].plot(t, sim_res['Batch.bioreactor.c[1]'],color='b',linestyle=linetype)"
+            "ax[0].plot(t, sim_res['BatchNoNoise.bioreactor.c[1]'],color='b',linestyle=linetype)"
         )
         diagrams.append(
-            "ax[1].plot(t, sim_res['Batch.bioreactor.c[2]'],color='b',linestyle=linetype)"
+            "ax[1].plot(t, sim_res['BatchNoNoise.bioreactor.c[2]'],color='b',linestyle=linetype)"
         )
 #        diagrams.append(
 #            "ax[1].plot([0, simulationTime], [model.get('monitor.S_min'), model.get('monitor.S_min')],color='g',linestyle='--')"
 #        )
         diagrams.append(
-            "ax[2].plot(t, sim_res['Batch.bioreactor.culture.q[1]'],color='b',linestyle=linetype)"
+            "ax[2].plot(t, sim_res['BatchNoNoise.bioreactor.culture.q[1]'],color='b',linestyle=linetype)"
         )
         diagrams.append(
-            "ax[3].step(t, sim_res['monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)"
+            "ax[3].step(t, sim_res['BatchNoNoise.monitor.batch_evaluation'],where='post',color='b',linestyle=linetype)"
         )
 
     elif plotType == "TimeSeries_2_diagrams":
@@ -160,7 +160,7 @@ def newplot(title="Batch cultivation", plotType="TimeSeries"):
         # List of commands to be executed by simu() after a simulation
         diagrams.clear()
         diagrams.append(
-            "ax[0].plot(sim_res['Batch.bioreactor.c[1]'],sim_res['Batch.bioreactor.c[2]'],color='b',linestyle=linetype)"
+            "ax[0].plot(sim_res['BatchNoNoise.bioreactor.c[1]'],sim_res['BatchNoNoise.bioreactor.c[2]'],color='b',linestyle=linetype)"
         )
 
     else:
