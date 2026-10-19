@@ -50,7 +50,7 @@ options = []
   
 # Provide various MSL and BPL versions
 if flag_vendor in ['JM', 'jm']:
-#    MSL_usage = model.get('MSL.usage')[0]
+    MSL_usage = model.get('MSL.usage')[0]
 #    MSL_version = model.get('MSL.version')[0]
 #    BPL_version = model.get('BPL.version')[0]
 elif flag_vendor in ['OM', 'om']:
