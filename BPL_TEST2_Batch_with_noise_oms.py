@@ -130,16 +130,16 @@ parCheck.append("parValue['VX_start'] >= 0")
 parCheck.append("parValue['VS_start'] >= 0")
 
 # Extended list of parameters and variables only for describe and not change
-keyVariables = []
-parLocation['mu'] = 'bioreactor.culture.mu'; keyVariables.append(parLocation['mu'])
-parLocation['bioreactor.c[1]'] = 'bioreactor.c[1]'; keyVariables.append(parLocation['bioreactor.c[1]'])
-parLocation['bioreactor.c[2]'] = 'bioreactor.c[2]'; keyVariables.append(parLocation['bioreactor.c[2]'])
-parLocation['bioreactor.culture.q[1]'] = 'bioreactor.culture.q[1]'; keyVariables.append(parLocation['bioreactor.culture.q[1]'])
-parLocation['monitor.time_final'] = 'monitor.time_final'; keyVariables.append(parLocation['monitor.time_final'])
-parLocation['monitor.X_final'] = 'monitor.X_final'; keyVariables.append(parLocation['monitor.X_final'])
-parLocation['monitor.batch_evaluation'] = 'monitor.batch_evaluation'; keyVariables.append(parLocation['monitor.batch_evaluation'])
-parLocation['monitor.S_min'] = 'monitor.S_min'; keyVariables.append(parLocation['monitor.S_min'])
-parLocation['sensor.out.c[2]'] = 'sensor.out.c[2]'; keyVariables.append(parLocation['sensor.out.c[2]'])
+
+parLocation['mu'] = 'bioreactor.culture.mu'
+parLocation['bioreactor.c[1]'] = 'bioreactor.c[1]'
+parLocation['bioreactor.c[2]'] = 'bioreactor.c[2]'
+parLocation['bioreactor.culture.q[1]'] = 'bioreactor.culture.q[1]'
+parLocation['monitor.time_final'] = 'monitor.time_final'
+parLocation['monitor.X_final'] = 'monitor.X_final'
+parLocation['monitor.batch_evaluation'] = 'monitor.batch_evaluation'
+parLocation['monitor.S_min'] = 'monitor.S_min'
+parLocation['sensor.out.c[2]'] = 'sensor.out.c[2]'
 
 # Create list of diagrams to be plotted by simu()
 diagrams = []
