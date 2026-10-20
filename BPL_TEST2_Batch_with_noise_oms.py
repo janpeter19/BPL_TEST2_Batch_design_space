@@ -66,7 +66,7 @@ else:
     print('There is no FMU for this platform')
 
 #--------------------------------------------------------------------------------------------------
-#  Specific for application:  parValue, parLocation, parCheck, keyVariables, diagrams, as, lines
+#  Specific for application:  parValue, parLocation, parCheck, diagrams, as, lines
 #--------------------------------------------------------------------------------------------------
 
 # Simulation time
@@ -130,7 +130,6 @@ parCheck.append("parValue['VX_start'] >= 0")
 parCheck.append("parValue['VS_start'] >= 0")
 
 # Extended list of parameters and variables only for describe and not change
-
 parLocation['mu'] = 'bioreactor.culture.mu'
 parLocation['bioreactor.c[1]'] = 'bioreactor.c[1]'
 parLocation['bioreactor.c[2]'] = 'bioreactor.c[2]'
