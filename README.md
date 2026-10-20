@@ -19,7 +19,9 @@ A Jupyter notebook that generate figures shown and also include a version with m
 [start BPL notebook](https://colab.research.google.com/github/janpeter19/BPL_TEST2_Batch_design_space/blob/main/BPL_TEST2_Batch_design_space_colab.ipynb)
 or alternatively 
 [start BPL notebook with FMPy](https://colab.research.google.com/github/janpeter19/BPL_TEST2_Batch_design_space/blob/main/BPL_TEST2_Batch_design_space_fmpy_colab.ipynb).
-In the menu choose Runtime/Run all. The installation takes just a few minutes. The subsequent execution of all the simulations take just about a minute or so.
+or (experimentally)
+[start BPL notebook with OMSimulator](https://colab.research.google.com/github/janpeter19/BPL_TEST2_Batch_design_space/blob/main/BPL_TEST2_Batch_design_space_oms_colab.ipynb).
+Then you in the menu choose Runtime/Run all. 
 
 You can continue in the notebook and make new simulations and follow the examples given. Here are many things to explore!
 
