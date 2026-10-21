@@ -64,7 +64,7 @@ else:
 
 # Simulation options
 options = []
-aptions.append("model.setSolver('cvode')")
+options.append("model.setSolver('cvode')")
 options.append("model.setTolerance(1e-6)")
 
 # Simulation time
