@@ -6,6 +6,7 @@
 # 2026-09-28 - Decrease the framework to what is necessary and move matlotlib to the other setup-file
 # 2026-09-28 - Change indentaiton from 3 spaces to 4
 # 2026-10-19 - Modify for oms
+# 2026-10-21 - More options specified
 #------------------------------------------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------------------
@@ -44,9 +45,6 @@ elif platform.system() == 'Linux':
 #            model = load_fmu(fmu_model, log_level=0)
     else:    
         print('There is no FMU for this platform')
-
-# Options
-options = []
   
 # Provide various MSL and BPL versions
 if flag_vendor in ['JM', 'jm']:
@@ -63,6 +61,11 @@ else:
 #--------------------------------------------------------------------------------------------------
 #  Specific application constructs: parValue, parLocation, parCheck, diagrams, ax, lines
 #--------------------------------------------------------------------------------------------------
+
+# Simulation options
+options = []
+aptions.append("model.setSolver('cvode')")
+options.append("model.setTolerance(1e-6)")
 
 # Simulation time
 simulationTime = 5.0

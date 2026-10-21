@@ -6,6 +6,7 @@
 # 2026-09-28 - Decrease the framework to what is necessary and move matlotlib to the other setup-file
 # 2026-09-28 - Change indentaiton from 3 spaces to 4
 # 2026-10-20 - Modify for oms
+# 2026-10-21 - More options specified
 #------------------------------------------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------------------
@@ -68,8 +69,8 @@ else:
 
 # Simulation options
 options = []
-#aptions.append("model.setSolver('cvode')")
-#options.append("model.setTolerance(1e-6)")
+aptions.append("model.setSolver('cvode')")
+options.append("model.setTolerance(1e-6)")
 
 # Simulation time
 simulationTime = 5.0
