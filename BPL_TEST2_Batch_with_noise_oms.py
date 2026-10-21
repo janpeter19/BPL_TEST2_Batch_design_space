@@ -46,9 +46,6 @@ elif platform.system() == 'Linux':
     else:    
         print('There is no FMU for this platform')   
 
-# Options
-options = []
-
 # Provide various MSL and BPL versions
 if flag_vendor in ['JM', 'jm']:
     constants = [v for v in model_description.modelVariables if v.causality == 'local'] 
@@ -68,6 +65,11 @@ else:
 #--------------------------------------------------------------------------------------------------
 #  Specific for application:  parValue, parLocation, parCheck, diagrams, as, lines
 #--------------------------------------------------------------------------------------------------
+
+# Simulation options
+options = []
+aptions.append("model.setSolver('cvode')")
+options.append("model.setTolerance(1e-6)")
 
 # Simulation time
 simulationTime = 5.0
