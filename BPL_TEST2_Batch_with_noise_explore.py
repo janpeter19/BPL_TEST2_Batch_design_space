@@ -4,6 +4,7 @@
 # 2026-08-28 - Created from script that originates back in the fall 2022. Today FMU uses BPL 2.3.2.
 # 2026-09-28 - Brought back numpy since quite often used in the notebooks
 # 2026-09-28 - Change indentaiton from 3 spaces to 4 using black
+# 2026-10-24 - Added clean-up section at the end
 # ------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------
@@ -214,3 +215,15 @@ def describe(name, decimals=3):
 # --------------------------------------------------------------------------------------------------
 
 FMU_explore_info()
+
+
+#------------------------------------------------------------------------------------------------------------------
+#  Clean-up
+#------------------------------------------------------------------------------------------------------------------
+
+del parValue, parLocation, parCheck
+del model, fmu_model, fmu_process_diagram
+del MSL_usage, MSL_version, BPL_version
+del opts_std, simulationTime, timeDiscreteStates
+del flag_type, flag_vendor
+del lines
