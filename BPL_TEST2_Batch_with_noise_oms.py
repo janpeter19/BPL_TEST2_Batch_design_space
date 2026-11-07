@@ -7,6 +7,7 @@
 # 2026-09-28 - Change indentaiton from 3 spaces to 4
 # 2026-10-20 - Modify for oms
 # 2026-10-21 - More options specified
+# 2026-11-07 - Corrected opts_std to refer to self.model
 #------------------------------------------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------------------
@@ -69,8 +70,8 @@ else:
 
 # Simulation options
 options = []
-options.append("model.setSolver('cvode')")
-options.append("model.setTolerance(1e-6)")
+options.append("self.model.setSolver('cvode')")
+options.append("self.model.setTolerance(1e-6)")
 
 # Simulation time
 simulationTime = 5.0
