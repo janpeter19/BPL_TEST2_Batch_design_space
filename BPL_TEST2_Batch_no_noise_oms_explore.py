@@ -177,7 +177,7 @@ def describe(name, decimals=3):
         describe_MSL()
 
     else:
-        Application.describe_general(name, decimals)
+        describe_general(name, decimals)
 
 
 # --------------------------------------------------------------------------------------------------
